@@ -8,9 +8,73 @@ public class Email {
     private String lastName;
     private String password;
     private String department;
-    private int mailboxCap;
+    private String email;
+    private int mailboxCap = 500;
     private int passwordLength;
     private String alternateMail;
+    private String companySuffix = "company.com";
+
+    public Email(String fname, String lname){
+        this.firstName = fname;
+        this.lastName = lname;
+
+        //setting the department and showing it
+        this.department = setDepartment();
+        if (this.department.equals("")){
+            System.out.println("Department: None");
+        }
+        else{
+            System.out.println("Department: " + this.department);
+        }
+
+        //generating random password
+        this.passwordLength = getPasswordLength();
+        this.password = randomPassword();
+        System.out.println("Your password is: " + this.password);
+
+        //combine elements to generate email
+        //firstname.lastname@department.company.com
+        if (this.department.equals("")){
+
+            this.email = this.firstName.toLowerCase() + "." + this.lastName.toLowerCase() + "@" + this.department
+                    + this.companySuffix;
+        }
+        else{
+            this.email = this.firstName.toLowerCase() + "." + this.lastName.toLowerCase() + "@" + this.department
+                    + "." + this.companySuffix;
+        }
+    }
+
+    //Getters
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public int getMailboxCap() {
+        return this.mailboxCap;
+    }
+
+    public String getAlternateMail() {
+        return this.alternateMail;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    //Set the mailbox capacity
+    public void setMailBoxCap(int capacity){
+        this.mailboxCap = capacity;
+    }
+
+    //Set alternate email
+    public void setAlternateMail(String altMail){
+        this.alternateMail = altMail;
+    }
 
     //creating the password length input
     public int getPasswordLength(){
@@ -30,32 +94,9 @@ public class Email {
         return  this.passwordLength;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Email(String fname, String lname){
-        this.firstName = fname;
-        this.lastName = lname;
-        System.out.println("EMAIL CREATED: " + this.firstName + " " + this.lastName);
-
-        //setting the department and showing it
-        this.department = setDepartment();
-        System.out.println("Department: " + this.department);
-
-        //generating random password
-        this.passwordLength = getPasswordLength();
-        this.password = randomPassword();
-        System.out.println("Your password is: " + this.password);
-    }
-
     //Reading the input and department parameters
     private String setDepartment(){
-        System.out.print("DEPARTMENT CODES\n1 for Sales\n2 for Development\n3 for Accounting\n0 for none\nEnter department code: ");
+        System.out.print("New Employee: " + this.firstName + "\nDepartment Codes: \n1 for Sales\n2 for Development\n3 for Accounting\n0 for none\nEnter department code: ");
         Scanner s = new Scanner(System.in);
         int depChoice = s.nextInt();
         if (depChoice == 1){ return "sales";}
@@ -73,5 +114,18 @@ public class Email {
             password[i] = passwordSet.charAt(rand);
         }
         return new String(password);
+    }
+
+    public void changePassword(){
+        System.out.println("Changing password");
+        this.passwordLength = getPasswordLength();
+        this.password = randomPassword();
+        System.out.println("Your new password is: " + this.password);
+    }
+
+    public String getInfo(){
+        return "NAME: " + this.firstName + " " +this.lastName +
+                "\nEMAIL: " + this.email +
+                "\nMAILBOX CAP: " + this.mailboxCap + "mb";
     }
 }
